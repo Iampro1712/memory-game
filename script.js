@@ -20,6 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Elementos del DOM - Configuración
     const difficultyBtns = document.querySelectorAll('.difficulty-btn');
     const gameModeBtns = document.querySelectorAll('.game-mode-btn');
+    const cardDesignBtns = document.querySelectorAll('.card-design-btn');
+    const iconSetBtns = document.querySelectorAll('.icon-set-btn');
     const backFromSettingsBtn = document.getElementById('back-from-settings-btn');
     
     // Elementos del DOM - Modales
@@ -49,12 +51,27 @@ document.addEventListener('DOMContentLoaded', () => {
     let minutes = 0;
     let gameMode = 'normal'; // normal o timed
     let timeLimit = 120; // 2 minutos por defecto
+    let cardDesign = 'classic'; // Diseño de cartas: classic, geometric, neon o minimalist
+    let iconSet = 'animals'; // Conjunto de iconos: animals, fruits, space
 
-    // Iconos para las cartas (usando emojis para simplicidad)
-    const cardIcons = [
-        '🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼',
-        '🐨', '🐯', '🦁', '🐮', '🐷', '🐸', '🐵', '🐔'
-    ];
+    // Conjuntos de iconos para las cartas
+    const iconSets = {
+        animals: [
+            '🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼',
+            '🐨', '🐯', '🦁', '🐮', '🐷', '🐸', '🐵', '🐔'
+        ],
+        fruits: [
+            '🍎', '🍐', '🍊', '🍋', '🍌', '🍉', '🍇', '🍓',
+            '🍒', '🍑', '🥭', '🍍', '🥥', '🥝', '🍅', '🥑'
+        ],
+        space: [
+            '🚀', '🛸', '🌍', '🌙', '☄️', '⭐', '🌟', '✨',
+            '🌠', '🌌', '🪐', '🌑', '🌒', '🌓', '🌔', '🌕'
+        ]
+    };
+    
+    // Iconos actuales para las cartas (se actualizará según el conjunto seleccionado)
+    let cardIcons = iconSets.animals;
 
     // Inicializar el juego
     function initGame() {
@@ -77,6 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Crear las cartas según la dificultad
     function createCards() {
+        // Actualizar los iconos según el conjunto seleccionado
+        cardIcons = iconSets[iconSet];
+        
         // Seleccionar iconos según la cantidad de pares
         const selectedIcons = cardIcons.slice(0, totalPairs);
         
@@ -106,15 +126,45 @@ document.addEventListener('DOMContentLoaded', () => {
             cardElement.classList.add('card');
             cardElement.dataset.id = card.id;
             
+            // Aplicar el diseño de carta seleccionado
+            cardElement.classList.add(`design-${cardDesign}`);
+            
+            // Contenido de la carta según el diseño seleccionado
+            let backDesign = '';
+            
+            if (cardDesign === 'classic') {
+                backDesign = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                `;
+            } else if (cardDesign === 'geometric') {
+                backDesign = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                    </svg>
+                `;
+            } else if (cardDesign === 'neon') {
+                backDesign = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                `;
+            } else if (cardDesign === 'minimalist') {
+                backDesign = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                `;
+            }
+            
             cardElement.innerHTML = `
                 <div class="card-inner">
                     <div class="card-front flex items-center justify-center text-4xl">
                         ${card.icon}
                     </div>
                     <div class="card-back flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
+                        ${backDesign}
                     </div>
                 </div>
             `;
@@ -156,6 +206,12 @@ document.addEventListener('DOMContentLoaded', () => {
         moves++;
         movesDisplay.textContent = moves;
         
+        // Verificar que firstCard y secondCard no sean null antes de acceder a sus propiedades
+        if (!firstCard || !secondCard) {
+            resetBoard();
+            return;
+        }
+        
         const firstCardId = parseInt(firstCard.dataset.id);
         const secondCardId = parseInt(secondCard.dataset.id);
         
@@ -186,8 +242,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Deshabilitar cartas coincidentes
     function disableCards() {
-        firstCard.removeEventListener('click', flipCard);
-        secondCard.removeEventListener('click', flipCard);
+        // Verificar que firstCard y secondCard no sean null antes de acceder a sus métodos
+        if (firstCard && secondCard) {
+            firstCard.removeEventListener('click', flipCard);
+            secondCard.removeEventListener('click', flipCard);
+        }
         resetBoard();
     }
 
@@ -195,20 +254,32 @@ document.addEventListener('DOMContentLoaded', () => {
     function unflipCards() {
         lockBoard = true;
         
+        // Verificar que firstCard y secondCard no sean null antes de acceder a sus propiedades
+        if (!firstCard || !secondCard) {
+            resetBoard();
+            return;
+        }
+        
         // Añadir animación de sacudida
         firstCard.classList.add('shake');
         secondCard.classList.add('shake');
         
         setTimeout(() => {
-            firstCard.classList.remove('flipped', 'shake');
-            secondCard.classList.remove('flipped', 'shake');
-            
-            // Actualizar el estado de las cartas
-            const firstCardId = parseInt(firstCard.dataset.id);
-            const secondCardId = parseInt(secondCard.dataset.id);
-            
-            cards.find(c => c.id === firstCardId).isFlipped = false;
-            cards.find(c => c.id === secondCardId).isFlipped = false;
+            // Verificar nuevamente que firstCard y secondCard no sean null
+            if (firstCard && secondCard) {
+                firstCard.classList.remove('flipped', 'shake');
+                secondCard.classList.remove('flipped', 'shake');
+                
+                // Actualizar el estado de las cartas
+                const firstCardId = parseInt(firstCard.dataset.id);
+                const secondCardId = parseInt(secondCard.dataset.id);
+                
+                const firstCardObj = cards.find(c => c.id === firstCardId);
+                const secondCardObj = cards.find(c => c.id === secondCardId);
+                
+                if (firstCardObj) firstCardObj.isFlipped = false;
+                if (secondCardObj) secondCardObj.isFlipped = false;
+            }
             
             resetBoard();
         }, 1000);
@@ -396,6 +467,38 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    
+    // Actualizar el diseño de cartas seleccionado
+    function updateCardDesign(design) {
+        cardDesign = design;
+        
+        // Actualizar la selección visual
+        cardDesignBtns.forEach(btn => {
+            if (btn.dataset.design === design) {
+                btn.classList.add('selected');
+                btn.classList.add('font-bold');
+            } else {
+                btn.classList.remove('selected');
+                btn.classList.remove('font-bold');
+            }
+        });
+    }
+    
+    // Actualizar el conjunto de iconos seleccionado
+    function updateIconSet(set) {
+        iconSet = set;
+        
+        // Actualizar la selección visual
+        iconSetBtns.forEach(btn => {
+            if (btn.dataset.iconset === set) {
+                btn.classList.add('selected');
+                btn.classList.add('font-bold');
+            } else {
+                btn.classList.remove('selected');
+                btn.classList.remove('font-bold');
+            }
+        });
+    }
 
     // Event Listeners - Menú Principal
     playBtn.addEventListener('click', () => {
@@ -427,6 +530,18 @@ document.addEventListener('DOMContentLoaded', () => {
     gameModeBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             updateGameMode(btn.dataset.mode);
+        });
+    });
+    
+    cardDesignBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            updateCardDesign(btn.dataset.design);
+        });
+    });
+    
+    iconSetBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            updateIconSet(btn.dataset.iconset);
         });
     });
     

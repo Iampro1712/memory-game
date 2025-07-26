@@ -44,6 +44,53 @@
     color: white;
 }
 
+/* Estilos para los diferentes diseños de cartas */
+.design-classic .card-back {
+    background-color: #6366f1;
+}
+
+.design-classic .card-front {
+    background-color: #4338ca;
+}
+
+.design-geometric .card-back {
+    background-color: #9333ea;
+    background-image: linear-gradient(135deg, #9333ea 0%, #6366f1 100%);
+}
+
+.design-geometric .card-front {
+    background-color: #7e22ce;
+    background-image: linear-gradient(135deg, #7e22ce 0%, #4338ca 100%);
+}
+
+.design-neon .card-back {
+    background-color: #ec4899;
+    background-image: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+    box-shadow: 0 0 10px rgba(236, 72, 153, 0.7);
+}
+
+.design-neon .card-front {
+    background-color: #db2777;
+    background-image: linear-gradient(135deg, #db2777 0%, #7c3aed 100%);
+    box-shadow: 0 0 10px rgba(219, 39, 119, 0.7);
+}
+
+.design-minimalist .card-back {
+    background-color: #374151;
+    border: 2px solid #9ca3af;
+}
+
+.design-minimalist .card-front {
+    background-color: #1f2937;
+    border: 2px solid #9ca3af;
+}
+
+/* Estilos para las previsualizaciones de cartas */
+.card-preview {
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
 /* Animación para cuando hay coincidencia */
 @keyframes pulse {
     0% {

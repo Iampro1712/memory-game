@@ -44,3 +44,18 @@ Puedes personalizar el juego modificando los siguientes aspectos:
 ## Licencia
 
 Este proyecto está disponible como código abierto bajo los términos de la licencia MIT.
+
+## Changelog
+
+### Versión 1.5
+- Agregados 2 nuevos diseños de cartas: Neón y Minimalista
+- Agregados 3 conjuntos de iconos para las cartas: Animales, Frutas y Espacio
+- Mejorada la pantalla de configuración con opciones de personalización
+- Corregido error que impedía mostrar la ventana de victoria
+- Optimizaciones de rendimiento y mejoras en la interfaz de usuario
+
+### Versión 1.1
+- Implementación inicial del juego
+- Diseño responsive con TailwindCSS
+- Modos de dificultad: Fácil, Normal y Difícil
+- Modos de juego: Normal y Contrarreloj
